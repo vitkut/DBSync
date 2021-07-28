@@ -136,7 +136,11 @@ public class Main {
     }
 
     public static void pause(){
-        paused = true;
+        if(paused){
+            paused = false;
+        } else {
+            paused = true;
+        }
     }
 
     public static void stop(){
@@ -150,11 +154,11 @@ public class Main {
         stop();
     }
 
-    public static boolean isIsPaused() {
+    public static boolean isPaused() {
         return paused;
     }
 
-    public static boolean isIsError() {
+    public static boolean isError() {
         return error;
     }
 }
