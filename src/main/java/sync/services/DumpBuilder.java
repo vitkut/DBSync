@@ -17,6 +17,7 @@ public class DumpBuilder {
 
     public void writeDump(Table table) throws IOException{
         try {
+            logger.debug("writeDump("+table+")");
             if(dump.exists()){
                 if(!dump.delete()){
                     throw new IOException("Can not delete previous dump file in path ["+dump.getPath()+"]");
@@ -28,28 +29,32 @@ public class DumpBuilder {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(dump));
             objectOutputStream.writeObject(table);
             objectOutputStream.close();
-        } catch (IOException ex){
-            logger.error("writeDump: "+ex.getMessage());
+            logger.debug("writeDump done");
+        } catch (Exception ex){
+            logger.error("writeDump: "+ex);
             throw ex;
         }
     }
 
     public Table readDump() throws IOException, ClassNotFoundException{
         try {
+            logger.debug("readDump()");
             if(!dump.exists()){
                 throw new FileNotFoundException("Can not find dump in path ["+dump.getPath()+"]");
             }
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(dump));
             Table table = (Table) objectInputStream.readObject();
             objectInputStream.close();
+            logger.debug("readDump -> "+table);
             return table;
-        } catch (IOException | ClassNotFoundException ex){
+        } catch (Exception ex){
             logger.error("readDump: "+ex.getMessage());
             throw ex;
         }
     }
 
     public boolean isExists(){
+        logger.debug("isExists -> "+this.dump.exists());
         return this.dump.exists();
     }
 }

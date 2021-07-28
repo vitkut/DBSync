@@ -23,6 +23,7 @@ public class Adapter {
     }
 
     public List<ChangeLog> adapt(List<ChangeLog> masterChangesLogs) {
+        logger.debug("adapt("+masterChangesLogs+")");
         List<ChangeLog> adaptedChangesLogs = new ArrayList<>();
         try{
             for(ChangeLog c:masterChangesLogs){
@@ -48,25 +49,28 @@ public class Adapter {
                     }
                 }
             }
-        } catch (SQLException ex){
+        } catch (Exception ex){
             logger.error("adapt: "+ex.getMessage());
         }
+        logger.debug("adapt -> "+adaptedChangesLogs);
         return adaptedChangesLogs;
     }
 
     public List<Integer> getAllMastersId() throws SQLException{
         try {
+            logger.debug("getAllMastersId()");
             Table table = adapterDao.getAll();
             List<Integer> masterIdList = new ArrayList<>();
-            int columnNum = 1;
-            if(table.getRows().get(0).getValues().get(2).equals("master_id")){
-                columnNum = 2;
+            int columnNum = 0;
+            if(table.getRows().get(0).getValues().get(1).equals("master_id")){
+                columnNum = 1;
             }
             for(int i = 1; i < table.getRows().size(); i++){
                 masterIdList.add(Integer.parseInt(table.getRows().get(i).getValues().get(columnNum)));
             }
+            logger.debug("getAllMastersId -> "+masterIdList);
             return masterIdList;
-        } catch (SQLException ex){
+        } catch (Exception ex){
             logger.error("getAllMastersId: "+ex.getMessage());
             throw ex;
         }

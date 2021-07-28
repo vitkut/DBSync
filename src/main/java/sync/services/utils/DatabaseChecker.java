@@ -15,6 +15,7 @@ public class DatabaseChecker {
 
     public static List<ChangeLog> getChangeLogs(Table oldDump, Table newDump) throws TableException {
         try {
+            logger.debug("getChangeLogs("+oldDump+", "+newDump+")");
             if(!oldDump.getRows().get(0).equals(newDump.getRows().get(0))){
                 throw new TableException("Columns in the dumps are not the same");
             }
@@ -58,8 +59,9 @@ public class DatabaseChecker {
                     changeLogs.add(new ChangeLog(ChangeMethod.ADD, columns, null, newRow));
                 }
             }
+            logger.debug("getChangeLogs -> "+changeLogs);
             return changeLogs;
-        } catch (TableException ex){
+        } catch (Exception ex){
             logger.error("getChangeLogs: "+ex.getMessage());
             throw ex;
         }

@@ -19,6 +19,7 @@ public class SyncRowFinder {
 
     public void findSyncRows(Table masterTable, Table slaveTable) throws TableException, SQLException {
         try {
+            logger.debug("findSyncRows("+masterTable+", "+slaveTable+")");
             if(!masterTable.getRows().get(0).equals(slaveTable.getRows().get(0))){
                 throw new TableException("Columns in the tables are not the same");
             }
@@ -28,14 +29,16 @@ public class SyncRowFinder {
                 masterId = masterTable.getRows().get(i).getId();
                 for(int j = 1; j < slaveTable.getRows().size(); j++){
                     slaveId = slaveTable.getRows().get(j).getId();
-                    if(masterTable.getRows().get(i).equals(slaveTable.getRows().get(j))){
+                    if(masterTable.getRows().get(i).getValues().equals(slaveTable.getRows().get(j).getValues())){
                         if(!adapterDao.contains(masterId, slaveId)){
                             adapterDao.put(masterId, slaveId);
+                            logger.debug("findSyncRows -- adapterDao added masterID="+masterId+", slaveID="+slaveId);
                         }
                     }
                 }
             }
-        } catch (TableException | SQLException ex){
+            logger.debug("findSyncRows done");
+        } catch (Exception ex){
             logger.error("findSyncRows: "+ex.getMessage());
             throw ex;
         }

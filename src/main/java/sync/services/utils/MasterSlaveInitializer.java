@@ -18,6 +18,7 @@ public class MasterSlaveInitializer {
     //rewrite later
     public static Row getSameColumns(MasterDatabase masterDatabase, SlaveDatabase slaveDatabase) throws SQLException {
         try {
+            logger.debug("getSameColumns("+masterDatabase+", "+slaveDatabase+")");
             List<String> columns1 = new ArrayList<>();
             List<String> columns2 = new ArrayList<>();
             List<String> sameColumns = new ArrayList<>();
@@ -35,8 +36,11 @@ public class MasterSlaveInitializer {
             if(!sameColumns.contains("ID")){
                 throw new SQLException("Wrong main table [has not column ID]");
             }
-            return new Row(0, sameColumns);
-        } catch (SQLException ex){
+            sameColumns.remove("ID");
+            Row row = new Row(0, sameColumns);
+            logger.debug("getSameColumns -> "+row);
+            return row;
+        } catch (Exception ex){
             logger.error("getSameColumns: "+ex.getMessage());
             throw ex;
         }

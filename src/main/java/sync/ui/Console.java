@@ -12,9 +12,10 @@ public class Console {
 
     public static void main(String[] args) {
         boolean needToStop = false;
+        Main.init();
         Scanner scanner = new Scanner(System.in);
         logger.info("Command list: [start], [pause], [stop]");
-        while (!Main.isError() && !needToStop){
+        while (!needToStop){
             if(scanner.hasNextLine()){
                 String command = scanner.nextLine();
                 switch (command){
@@ -42,6 +43,7 @@ public class Console {
                     }
                 }
             }
+
         }
     }
 }

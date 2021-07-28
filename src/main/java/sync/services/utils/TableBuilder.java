@@ -15,12 +15,15 @@ public class TableBuilder {
     private static final Logger logger = LoggerFactory.getLogger(TableBuilder.class);
 
     public static Table getTable(ResultSet resultSet){
+        logger.debug("getTable("+resultSet+")");
         Table table = new Table();
         try {
             List<String> columns = new ArrayList<>();
             int columnsCount = resultSet.getMetaData().getColumnCount();
             for(int i = 1; i <= columnsCount; i++){
-                columns.add(resultSet.getMetaData().getColumnName(i));
+                if (!resultSet.getMetaData().getColumnName(i).equals("ID")){
+                    columns.add(resultSet.getMetaData().getColumnName(i));
+                }
             }
             Row columnsRow = new Row(0, columns);
             table.getRows().add(columnsRow);
@@ -38,9 +41,10 @@ public class TableBuilder {
                 Row row = new Row(id, values);
                 table.getRows().add(row);
             }
-        } catch (SQLException ex){
+        } catch (Exception ex){
             logger.error("getTable: "+ex.getMessage());
         }
+        logger.debug("getTable -> "+table);
         return table;
     }
 }

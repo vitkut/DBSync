@@ -52,6 +52,7 @@ public class Main {
             adapter = new Adapter(adapterDao);
             dumpBuilder = new DumpBuilder(dumpPath);
             syncRowFinder = new SyncRowFinder(adapterDao);
+            syncRowFinder.findSyncRows(masterDao.getAll(), slaveDao.getAll());
 
             boolean needToCreateDump = false;
             if(dumpBuilder.isExists()){
@@ -80,7 +81,7 @@ public class Main {
                 }
                 dumpBuilder.writeDump(dump);
             }
-            syncRowFinder.findSyncRows(masterDao.getAll(), slaveDao.getAll());
+            logger.debug("init done");
         } catch (Exception ex){
             logger.error("init: "+ex.getMessage());
             error();
@@ -152,6 +153,7 @@ public class Main {
     public static void error(){
         error = true;
         stop();
+        System.exit(1);
     }
 
     public static boolean isPaused() {

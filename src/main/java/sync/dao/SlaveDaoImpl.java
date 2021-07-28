@@ -1,5 +1,7 @@
 package sync.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sync.models.ChangeLog;
 import sync.models.Row;
 import sync.models.SlaveDatabase;
@@ -14,6 +16,7 @@ public class SlaveDaoImpl implements SlaveDao {
 
     private SlaveDatabase slaveDatabase;
     private Row columns;
+    private static final Logger logger = LoggerFactory.getLogger(SlaveDaoImpl.class);
 
     public SlaveDaoImpl(SlaveDatabase slaveDatabase, Row columns) {
         this.slaveDatabase = slaveDatabase;
@@ -22,27 +25,35 @@ public class SlaveDaoImpl implements SlaveDao {
 
     @Override
     public Table getAll() throws SQLException {
-        return TableBuilder
+        logger.debug("getAll()");
+        Table table = TableBuilder
                 .getTable(slaveDatabase.getConnection().createStatement()
                         .executeQuery(SQLBuilder.getSelectSQL(columns, slaveDatabase.getTableName())));
+        logger.debug("getAll -> "+table);
+        return table;
     }
 
     @Override
     public void update(ChangeLog changeLog) throws SQLException {
+        logger.debug("update("+changeLog+")");
         slaveDatabase.getConnection().createStatement()
                 .execute(SQLBuilder.getUpdateSQL(slaveDatabase.getTableName(), changeLog.getColumns(),
                          changeLog.getFrom(), changeLog.getTo()));
+        logger.debug("update done");
     }
 
     @Override
     public void delete(ChangeLog changeLog) throws SQLException {
+        logger.debug("delete("+changeLog+")");
         slaveDatabase.getConnection().createStatement()
                 .execute(SQLBuilder.getDeleteSQL(slaveDatabase.getTableName(), changeLog.getColumns(),
                         changeLog.getFrom()));
+        logger.debug("delete done");
     }
 
     @Override
     public Integer add(ChangeLog changeLog) throws SQLException {
+        logger.debug("add("+changeLog+")");
         String sqlAdd = SQLBuilder.getAddSQL(slaveDatabase.getTableName(), changeLog.getColumns(), changeLog.getTo());
         String sqlGetId = SQLBuilder.getId(slaveDatabase.getTableName(), changeLog.getColumns(), changeLog.getTo());
         slaveDatabase.getConnection().createStatement().execute(sqlAdd);
@@ -52,6 +63,7 @@ public class SlaveDaoImpl implements SlaveDao {
         if(!table.getRows().isEmpty()){
             id = table.getRows().get(table.getRows().size()-1).getId();
         }
+        logger.debug("add -> "+id);
         return id;
     }
 

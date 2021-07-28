@@ -1,5 +1,7 @@
 package sync.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sync.models.MasterDatabase;
 import sync.models.Row;
 import sync.models.Table;
@@ -12,6 +14,7 @@ public class MasterDaoImpl implements MasterDao {
 
     private MasterDatabase masterDatabase;
     private Row columns;
+    private static final Logger logger = LoggerFactory.getLogger(MasterDaoImpl.class);
 
     public MasterDaoImpl(MasterDatabase masterDatabase, Row columns) {
         this.masterDatabase = masterDatabase;
@@ -20,9 +23,12 @@ public class MasterDaoImpl implements MasterDao {
 
     @Override
     public Table getAll() throws SQLException {
-        return TableBuilder
+        logger.debug("getAll()");
+        Table table = TableBuilder
                 .getTable(masterDatabase.getConnection().createStatement()
                         .executeQuery(SQLBuilder.getSelectSQL(columns, masterDatabase.getTableName())));
+        logger.debug("getAll -> "+table);
+        return table;
     }
 
     public MasterDatabase getMasterDatabase() {

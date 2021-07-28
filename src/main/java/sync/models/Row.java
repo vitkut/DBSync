@@ -1,9 +1,10 @@
 package sync.models;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Row {
+public class Row implements Serializable {
 
     private Integer id;
     private List<String> values;
