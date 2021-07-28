@@ -1,0 +1,80 @@
+23:13:34.757 [main] INFO   sync.Main - Init..
+23:13:35.847 [main] INFO   sync.ui.Console - Command list: [start], [pause], [stop]00:54:52.298 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, personal)
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from personal
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getAddSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, serr]})
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getAddSQL -> insert into personal(PARENT_ID, NAME) values (null, 'serr')
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getDeleteSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getDeleteSQL -> delete from personal where ID='1' AND PARENT_ID=null AND NAME='ser'
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getUpdateSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, serr]})
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getUpdateSQL -> update personal set PARENT_ID=null, NAME='serr' where ID='1' AND PARENT_ID=null AND NAME='ser'
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getId(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+00:54:52.308 [main] DEBUG  s.s.utils.SQLBuilder - getId -> select ID, PARENT_ID, NAME from personal where PARENT_ID=null AND NAME='ser'
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, personal)
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from personal
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getAddSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, serr]})
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getAddSQL -> insert into personal(PARENT_ID, NAME) values (NULL, 'serr')
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getDeleteSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getDeleteSQL -> delete from personal where ID='1' AND PARENT_ID IS NULL AND NAME='ser'
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getUpdateSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, serr]})
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getUpdateSQL -> update personal set PARENT_ID=null, NAME='serr' where ID='1' AND PARENT_ID IS NULL AND NAME='ser'
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getId(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+01:09:25.222 [main] DEBUG  s.s.utils.SQLBuilder - getId -> select ID, PARENT_ID, NAME from personal where PARENT_ID IS NULL ANDNAME='ser'
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, personal)
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from personal
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getAddSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, serr]})
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getAddSQL -> insert into personal(PARENT_ID, NAME) values (NULL, 'serr')
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getDeleteSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getDeleteSQL -> delete from personal where ID='1' AND PARENT_ID IS NULL AND NAME='ser'
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getUpdateSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, serr]})
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getUpdateSQL -> update personal set PARENT_ID=null, NAME='serr' where ID='1' AND PARENT_ID IS NULL AND NAME='ser'
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getId(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+01:11:01.232 [main] DEBUG  s.s.utils.SQLBuilder - getId -> select ID, PARENT_ID, NAME from personal where PARENT_ID IS NULL ANDNAME='ser'
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, personal)
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from personal
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getAddSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, serr]})
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getAddSQL -> insert into personal(PARENT_ID, NAME) values (NULL, 'serr')
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getDeleteSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getDeleteSQL -> delete from personal where ID='1' AND PARENT_ID IS NULL AND NAME='ser'
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getUpdateSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, serr]})
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getUpdateSQL -> update personal set PARENT_ID=NULL, NAME='serr' where ID='1' AND PARENT_ID IS NULL AND NAME='ser'
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getId(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+01:12:37.756 [main] DEBUG  s.s.utils.SQLBuilder - getId -> select ID, PARENT_ID, NAME from personal where PARENT_ID IS NULL AND NAME='ser'
+01:13:43.749 [main] INFO   sync.Main - Init..
+01:13:43.759 [main] DEBUG  s.config.AppConfig - getPeriod()
+01:13:43.759 [main] DEBUG  s.config.AppConfig - getPeriod -> 60000
+01:13:43.759 [main] DEBUG  s.config.AppConfig - getDumpPath()
+01:13:43.759 [main] DEBUG  s.config.AppConfig - getDumpPath -> ./src/test/resources/dump.dat
+01:13:43.759 [main] DEBUG  s.config.AppConfig - getMasterDatabase()
+01:13:43.759 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/testsover]
+01:13:44.819 [main] DEBUG  s.config.AppConfig - getMasterDatabase -> Database{tableName='test'}
+01:13:44.819 [main] DEBUG  s.config.AppConfig - getSlaveDatabase()
+01:13:44.819 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/testsigur]
+01:13:44.839 [main] DEBUG  s.config.AppConfig - getSalveDatabase -> Database{tableName='personal'}
+01:13:44.839 [main] DEBUG  s.config.AppConfig - getAdapterDatabase()
+01:13:44.859 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/adapter]
+01:13:44.889 [main] DEBUG  s.config.AppConfig - getAdapterDatabase -> Database{tableName='adapter'}
+01:13:44.889 [main] DEBUG  s.s.u.MasterSlaveInitializer - getSameColumns(Database{tableName='test'}, Database{tableName='personal'})
+01:13:44.899 [main] DEBUG  s.s.u.MasterSlaveInitializer - getSameColumns -> Row{id=0, values=[PARENT_ID, NAME]}
+01:13:44.899 [main] DEBUG  s.dao.MasterDaoImpl - getAll()
+01:13:44.899 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, test)
+01:13:44.899 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from test
+01:13:44.899 [main] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@31d7b7bf)
+01:13:44.899 [main] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]}, Row{id=24, values=[null, worked]}]}
+01:13:44.899 [main] DEBUG  s.dao.MasterDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]}, Row{id=24, values=[null, worked]}]}
+01:13:44.899 [main] DEBUG  s.dao.SlaveDaoImpl - getAll()
+01:13:44.899 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, personal)
+01:13:44.899 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from personal
+01:13:44.899 [main] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@1ddf84b8)
+01:13:44.899 [main] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}, Row{id=24, values=[null, worked]}]}
+01:13:44.899 [main] DEBUG  s.dao.SlaveDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}, Row{id=24, values=[null, worked]}]}
+01:13:44.899 [main] DEBUG  s.s.SyncRowFinder - findSyncRows(Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]}, Row{id=24, values=[null, worked]}]}, Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}, Row{id=24, values=[null, worked]}]})
+01:13:44.899 [main] DEBUG  s.dao.AdapterDaoImpl - contains(24, 24)
+01:13:44.899 [main] DEBUG  s.dao.AdapterDaoImpl - get(24)
+01:13:44.909 [main] DEBUG  s.dao.AdapterDaoImpl - get -> [24]
+01:13:44.909 [main] DEBUG  s.dao.AdapterDaoImpl - contains -> true
+01:13:44.909 [main] DEBUG  s.s.SyncRowFinder - findSyncRows done
+01:13:44.909 [main] DEBUG  s.s.DumpBuilder - isExists -> true
+01:13:44.909 [main] DEBUG  s.s.DumpBuilder - readDump()
+01:13:44.909 [main] DEBUG  s.s.DumpBuilder - readDump -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}]}
+01:13:44.919 [main] DEBUG  sync.Main - init done
+01:13:44.919 [main] INFO   sync.ui.Console - Command list: [start], [pause], [stop]

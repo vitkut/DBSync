@@ -1,0 +1,147 @@
+00:37:00.564 [main] INFO   sync.Main - Init..
+00:37:00.564 [main] DEBUG  s.config.AppConfig - getPeriod()
+00:37:00.564 [main] DEBUG  s.config.AppConfig - getPeriod -> 60000
+00:37:00.564 [main] DEBUG  s.config.AppConfig - getDumpPath()
+00:37:00.564 [main] DEBUG  s.config.AppConfig - getDumpPath -> temp/dump.dat
+00:37:00.564 [main] DEBUG  s.config.AppConfig - getMasterDatabase()
+00:37:00.564 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/testsover]
+00:37:00.964 [main] DEBUG  s.config.AppConfig - getMasterDatabase -> Database{tableName='test'}
+00:37:00.964 [main] DEBUG  s.config.AppConfig - getSlaveDatabase()
+00:37:00.964 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/testsigur]
+00:37:00.994 [main] DEBUG  s.config.AppConfig - getSalveDatabase -> Database{tableName='personal'}
+00:37:00.994 [main] DEBUG  s.config.AppConfig - getAdapterDatabase()
+00:37:01.044 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/adapter]
+00:37:01.104 [main] DEBUG  s.config.AppConfig - getAdapterDatabase -> Database{tableName='adapter'}
+00:37:01.104 [main] DEBUG  s.s.u.MasterSlaveInitializer - getSameColumns(Database{tableName='test'}, Database{tableName='personal'})
+00:37:01.114 [main] DEBUG  s.s.u.MasterSlaveInitializer - getSameColumns -> Row{id=0, values=[PARENT_ID, NAME]}
+00:37:01.114 [main] DEBUG  s.dao.MasterDaoImpl - getAll()
+00:37:01.114 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, test)
+00:37:01.114 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from test
+00:37:01.114 [main] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@5c86a017)
+00:37:01.114 [main] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:37:01.114 [main] DEBUG  s.dao.MasterDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:37:01.114 [main] DEBUG  s.dao.SlaveDaoImpl - getAll()
+00:37:01.114 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, personal)
+00:37:01.114 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from personal
+00:37:01.114 [main] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@6a4f1a55)
+00:37:01.114 [main] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}]}
+00:37:01.114 [main] DEBUG  s.dao.SlaveDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}]}
+00:37:01.114 [main] DEBUG  s.s.SyncRowFinder - findSyncRows(Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}, Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}]})
+00:37:01.114 [main] DEBUG  s.s.SyncRowFinder - findSyncRows done
+00:37:01.114 [main] DEBUG  s.s.DumpBuilder - isExists -> true
+00:37:01.114 [main] DEBUG  s.s.DumpBuilder - readDump()
+00:37:01.134 [main] DEBUG  s.s.DumpBuilder - readDump -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}]}
+00:37:01.134 [main] DEBUG  sync.Main - init done
+00:37:01.134 [main] INFO   sync.ui.Console - Command list: [start], [pause], [stop]
+00:37:04.174 [Timer-0] INFO   sync.Main - Start checking..
+00:37:04.174 [Timer-0] DEBUG  s.dao.MasterDaoImpl - getAll()
+00:37:04.174 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, test)
+00:37:04.174 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from test
+00:37:04.174 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@14f0cb4)
+00:37:04.174 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:37:04.174 [Timer-0] DEBUG  s.dao.MasterDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:37:04.174 [Timer-0] DEBUG  s.s.DumpBuilder - readDump()
+00:37:04.174 [Timer-0] DEBUG  s.s.DumpBuilder - readDump -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}]}
+00:37:04.174 [Timer-0] DEBUG  s.s.u.DatabaseChecker - getChangeLogs(Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}]}, Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]})
+00:37:04.174 [Timer-0] DEBUG  s.s.u.DatabaseChecker - getChangeLogs -> [ChangeLog{changeMethod=ADD, columns=Row{id=0, values=[PARENT_ID, NAME]}, from=null, to=Row{id=24, values=[null, worked]}}]
+00:37:04.174 [Timer-0] DEBUG  s.services.Adapter - adapt([ChangeLog{changeMethod=ADD, columns=Row{id=0, values=[PARENT_ID, NAME]}, from=null, to=Row{id=24, values=[null, worked]}}])
+00:37:04.174 [Timer-0] DEBUG  s.services.Adapter - adapt -> [ChangeLog{changeMethod=ADD, columns=Row{id=0, values=[PARENT_ID, NAME]}, from=null, to=Row{id=24, values=[null, worked]}}]
+00:37:04.184 [Timer-0] DEBUG  s.dao.SlaveDaoImpl - add(ChangeLog{changeMethod=ADD, columns=Row{id=0, values=[PARENT_ID, NAME]}, from=null, to=Row{id=24, values=[null, worked]}})
+00:37:04.184 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getAddSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]})
+00:37:04.184 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getAddSQL -> insert into personal(PARENT_ID, NAME) values (null, 'worked')
+00:37:04.184 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getId(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]})
+00:37:04.184 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getId -> select ID from personal where PARENT_ID=null AND NAME='worked'
+00:37:04.424 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@548c3e75)
+00:37:04.424 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[]}]}
+00:37:04.424 [Timer-0] DEBUG  s.dao.SlaveDaoImpl - add -> 0
+00:37:04.424 [Timer-0] DEBUG  s.dao.AdapterDaoImpl - put(24, 0)
+00:37:04.444 [Timer-0] DEBUG  s.dao.AdapterDaoImpl - put done
+00:37:04.444 [Timer-0] DEBUG  s.s.DumpBuilder - writeDump(Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]})
+00:37:04.454 [Timer-0] DEBUG  s.s.DumpBuilder - writeDump done
+00:37:04.454 [Timer-0] INFO   sync.Main - End checking..
+00:37:04.464 [Timer-0] INFO   sync.Main - Next check in 2021-07-29T00:38:04.464926200
+00:37:49.840 [main] INFO   sync.ui.Console - -Paused-
+00:41:41.517 [main] INFO   sync.Main - Init..
+00:41:41.527 [main] DEBUG  s.config.AppConfig - getPeriod()
+00:41:41.527 [main] DEBUG  s.config.AppConfig - getPeriod -> 60000
+00:41:41.527 [main] DEBUG  s.config.AppConfig - getDumpPath()
+00:41:41.527 [main] DEBUG  s.config.AppConfig - getDumpPath -> temp/dump.dat
+00:41:41.527 [main] DEBUG  s.config.AppConfig - getMasterDatabase()
+00:41:41.527 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/testsover]
+00:41:41.927 [main] DEBUG  s.config.AppConfig - getMasterDatabase -> Database{tableName='test'}
+00:41:41.937 [main] DEBUG  s.config.AppConfig - getSlaveDatabase()
+00:41:41.937 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/testsigur]
+00:41:41.957 [main] DEBUG  s.config.AppConfig - getSalveDatabase -> Database{tableName='personal'}
+00:41:41.957 [main] DEBUG  s.config.AppConfig - getAdapterDatabase()
+00:41:41.977 [main] DEBUG  o.s.j.d.DriverManagerDataSource - Creating new JDBC DriverManager Connection to [jdbc:mysql://localhost:3306/adapter]
+00:41:42.007 [main] DEBUG  s.config.AppConfig - getAdapterDatabase -> Database{tableName='adapter'}
+00:41:42.007 [main] DEBUG  s.s.u.MasterSlaveInitializer - getSameColumns(Database{tableName='test'}, Database{tableName='personal'})
+00:41:42.017 [main] DEBUG  s.s.u.MasterSlaveInitializer - getSameColumns -> Row{id=0, values=[PARENT_ID, NAME]}
+00:41:42.027 [main] DEBUG  s.dao.MasterDaoImpl - getAll()
+00:41:42.027 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, test)
+00:41:42.027 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from test
+00:41:42.027 [main] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@5c86a017)
+00:41:42.027 [main] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:41:42.027 [main] DEBUG  s.dao.MasterDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:41:42.027 [main] DEBUG  s.dao.SlaveDaoImpl - getAll()
+00:41:42.027 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, personal)
+00:41:42.027 [main] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from personal
+00:41:42.027 [main] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@6a4f1a55)
+00:41:42.027 [main] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}, Row{id=24, values=[null, worked]}]}
+00:41:42.027 [main] DEBUG  s.dao.SlaveDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}, Row{id=24, values=[null, worked]}]}
+00:41:42.027 [main] DEBUG  s.s.SyncRowFinder - findSyncRows(Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}, Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=2, values=[0, kut]}, Row{id=23, values=[0, rr]}, Row{id=24, values=[null, worked]}]})
+00:41:42.027 [main] DEBUG  s.dao.AdapterDaoImpl - contains(24, 24)
+00:41:42.027 [main] DEBUG  s.dao.AdapterDaoImpl - get(24)
+00:41:42.037 [main] DEBUG  s.dao.AdapterDaoImpl - get -> []
+00:41:42.037 [main] DEBUG  s.dao.AdapterDaoImpl - contains -> false
+00:41:42.037 [main] DEBUG  s.dao.AdapterDaoImpl - put(24, 24)
+00:41:43.057 [main] DEBUG  s.dao.AdapterDaoImpl - put done
+00:41:43.057 [main] DEBUG  s.s.SyncRowFinder - findSyncRows -- adapterDao added masterID=24, slaveID=24
+00:41:43.067 [main] DEBUG  s.s.SyncRowFinder - findSyncRows done
+00:41:43.067 [main] DEBUG  s.s.DumpBuilder - isExists -> true
+00:41:43.067 [main] DEBUG  s.s.DumpBuilder - readDump()
+00:41:43.077 [main] DEBUG  s.s.DumpBuilder - readDump -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:41:43.077 [main] DEBUG  sync.Main - init done
+00:41:43.077 [main] INFO   sync.ui.Console - Command list: [start], [pause], [stop]
+00:42:03.276 [Timer-0] INFO   sync.Main - Start checking..
+00:42:03.276 [Timer-0] DEBUG  s.dao.MasterDaoImpl - getAll()
+00:42:03.276 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, test)
+00:42:03.286 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from test
+00:42:03.286 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@35f82dba)
+00:42:03.286 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:42:03.286 [Timer-0] DEBUG  s.dao.MasterDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:42:03.286 [Timer-0] DEBUG  s.s.DumpBuilder - readDump()
+00:42:03.286 [Timer-0] DEBUG  s.s.DumpBuilder - readDump -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:42:03.286 [Timer-0] DEBUG  s.s.u.DatabaseChecker - getChangeLogs(Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}, Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]})
+00:42:03.286 [Timer-0] DEBUG  s.s.u.DatabaseChecker - getChangeLogs -> []
+00:42:03.286 [Timer-0] INFO   sync.Main - No changes
+00:42:03.286 [Timer-0] INFO   sync.Main - End checking..
+00:42:03.296 [Timer-0] INFO   sync.Main - Next check in 2021-07-29T00:43:03.296652400
+00:43:03.277 [Timer-0] INFO   sync.Main - Start checking..
+00:43:03.277 [Timer-0] DEBUG  s.dao.MasterDaoImpl - getAll()
+00:43:03.277 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getSelectSQL(Row{id=0, values=[PARENT_ID, NAME]}, test)
+00:43:03.277 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getSelectSQL -> select ID, PARENT_ID, NAME from test
+00:43:03.277 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@6d3d4603)
+00:43:03.277 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]}, Row{id=24, values=[null, worked]}]}
+00:43:03.277 [Timer-0] DEBUG  s.dao.MasterDaoImpl - getAll -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]}, Row{id=24, values=[null, worked]}]}
+00:43:03.277 [Timer-0] DEBUG  s.s.DumpBuilder - readDump()
+00:43:03.277 [Timer-0] DEBUG  s.s.DumpBuilder - readDump -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}
+00:43:03.277 [Timer-0] DEBUG  s.s.u.DatabaseChecker - getChangeLogs(Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=24, values=[null, worked]}]}, Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]}, Row{id=24, values=[null, worked]}]})
+00:43:03.277 [Timer-0] DEBUG  s.s.u.DatabaseChecker - getChangeLogs -> [ChangeLog{changeMethod=ADD, columns=Row{id=0, values=[PARENT_ID, NAME]}, from=null, to=Row{id=1, values=[null, ser]}}]
+00:43:03.277 [Timer-0] DEBUG  s.services.Adapter - adapt([ChangeLog{changeMethod=ADD, columns=Row{id=0, values=[PARENT_ID, NAME]}, from=null, to=Row{id=1, values=[null, ser]}}])
+00:43:03.277 [Timer-0] DEBUG  s.services.Adapter - adapt -> [ChangeLog{changeMethod=ADD, columns=Row{id=0, values=[PARENT_ID, NAME]}, from=null, to=Row{id=1, values=[null, ser]}}]
+00:43:03.287 [Timer-0] DEBUG  s.dao.SlaveDaoImpl - add(ChangeLog{changeMethod=ADD, columns=Row{id=0, values=[PARENT_ID, NAME]}, from=null, to=Row{id=1, values=[null, ser]}})
+00:43:03.287 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getAddSQL(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+00:43:03.287 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getAddSQL -> insert into personal(PARENT_ID, NAME) values (null, 'ser')
+00:43:03.287 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getId(personal, Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]})
+00:43:03.287 [Timer-0] DEBUG  s.s.utils.SQLBuilder - getId -> select ID, PARENT_ID, NAME from personal where PARENT_ID=null AND NAME='ser'
+00:43:03.307 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable(com.mysql.cj.jdbc.result.ResultSetImpl@e0ca722)
+00:43:03.307 [Timer-0] DEBUG  s.s.u.TableBuilder - getTable -> Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}]}
+00:43:03.307 [Timer-0] DEBUG  s.dao.SlaveDaoImpl - add -> 0
+00:43:03.307 [Timer-0] DEBUG  s.dao.AdapterDaoImpl - put(1, 0)
+00:43:03.337 [Timer-0] DEBUG  s.dao.AdapterDaoImpl - put done
+00:43:03.337 [Timer-0] DEBUG  s.s.DumpBuilder - writeDump(Table{rows=[Row{id=0, values=[PARENT_ID, NAME]}, Row{id=1, values=[null, ser]}, Row{id=24, values=[null, worked]}]})
+00:43:03.347 [Timer-0] DEBUG  s.s.DumpBuilder - writeDump done
+00:43:03.347 [Timer-0] INFO   sync.Main - End checking..
+00:43:03.347 [Timer-0] INFO   sync.Main - Next check in 2021-07-29T00:44:03.347081700
+00:43:25.137 [main] INFO   sync.ui.Console - -Paused-

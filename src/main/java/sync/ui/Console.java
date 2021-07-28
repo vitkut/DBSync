@@ -45,5 +45,7 @@ public class Console {
             }
 
         }
+        System.out.println("Press Enter");
+        scanner.nextLine();
     }
 }

@@ -18,6 +18,11 @@ public class DumpBuilder {
     public void writeDump(Table table) throws IOException{
         try {
             logger.debug("writeDump("+table+")");
+            if(!dump.getParentFile().exists()){
+                if(!dump.getParentFile().mkdir()){
+                    throw new IOException("Can not create directory in path ["+dump.getParentFile().getPath()+"]");
+                }
+            }
             if(dump.exists()){
                 if(!dump.delete()){
                     throw new IOException("Can not delete previous dump file in path ["+dump.getPath()+"]");

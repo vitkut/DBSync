@@ -10,14 +10,14 @@
     </appender>
 
     <appender name="FILE"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>./log.txt</file>
+              class="ch.qos.logback.core.FileAppender">
+        <file>log.txt</file>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level  %logger{20} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>
