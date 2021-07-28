@@ -10,7 +10,7 @@ public class PropertiesReader {
     private Properties properties = new Properties();
 
     public PropertiesReader()throws IOException {
-        this("./src/main/resources/application.properties");
+        this("application.properties");
     }
 
     public PropertiesReader(String propertiesPath) throws IOException {
