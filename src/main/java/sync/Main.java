@@ -44,7 +44,7 @@ public class Main {
             dumpPath = appConfig.getDumpPath();
             MasterDatabase masterDatabase = appConfig.getMasterDatabase();
             SlaveDatabase slaveDatabase = appConfig.getSlaveDatabase();
-            AdapterDatabase adapterDatabase = appConfig.getAdapterDatabase(masterDatabase);
+            AdapterDatabase adapterDatabase = appConfig.getAdapterDatabase();
             adapterDao = new AdapterDaoImpl(adapterDatabase);
             Row sameColumns = MasterSlaveInitializer.getSameColumns(masterDatabase, slaveDatabase);
             masterDao = new MasterDaoImpl(masterDatabase, sameColumns);

@@ -71,32 +71,36 @@ public class AppConfig {
 
     }
 
-    public AdapterDatabase getAdapterDatabase(MasterDatabase masterDatabase) throws SQLException{
+    public AdapterDatabase getAdapterDatabase() throws SQLException{
         try {
             logger.debug("getAdapterDatabase()");
             StringBuilder url = new StringBuilder();
-            url.append("jdbc:mysql://").append(propertiesReader.getProperty("db.master.host"))
-                    .append(":").append(propertiesReader.getProperty("db.master.port"))
-                    .append("/").append(propertiesReader.getProperty("db.adapter.databaseName"));
-            String username = propertiesReader.getProperty("db.master.username");
-            String password = propertiesReader.getProperty("db.master.password");
+            url.append("jdbc:mysql://").append(propertiesReader.getProperty("db.adapter.host"))
+                    .append(":").append(propertiesReader.getProperty("db.adapter.port"));
+            String databaseName = propertiesReader.getProperty("db.adapter.databaseName");
+            String username = propertiesReader.getProperty("db.adapter.username");
+            String password = propertiesReader.getProperty("db.adapter.password");
             String tableName = propertiesReader.getProperty("db.adapter.tableName");
-            DataSource dataSource = new DriverManagerDataSource(url.toString(), username, password);
-            ResultSet resultSet = masterDatabase.getConnection().createStatement().executeQuery("show databases");
+            DataSource tempDataSource = new DriverManagerDataSource(url.toString(), username, password);
+            Connection tempConnection = tempDataSource.getConnection();
+            if(tempConnection.isClosed()){
+                throw new SQLException("Can not connect to DB: "+url.toString());
+            }
+            ResultSet resultSet = tempConnection.createStatement().executeQuery("show databases");
             boolean needToCreateDatabase = true;
             while(resultSet.next()){
-                if(resultSet.getString(1).equals(propertiesReader.getProperty("db.adapter.databaseName"))){
+                if(resultSet.getString(1).equals(databaseName)){
                     needToCreateDatabase = false;
                     break;
                 }
             }
             if(needToCreateDatabase){
-                masterDatabase.getConnection().createStatement().execute("create database "+propertiesReader.getProperty("db.adapter.databaseName"));
+                logger.debug("Creating adapter database");
+                tempConnection.createStatement().execute("create database "+databaseName);
             }
+            url.append("/").append(databaseName);
+            DataSource dataSource = new DriverManagerDataSource(url.toString(), username, password);
             Connection connection = dataSource.getConnection();
-            if(connection.isClosed()){
-                throw new SQLException("Can not connect to DB: "+url.toString());
-            }
             AdapterDatabase adapterDatabase = new AdapterDatabase(connection, tableName);
             boolean needToCreateTable = true;
             resultSet = adapterDatabase.getConnection().createStatement().executeQuery("show tables");
@@ -107,6 +111,7 @@ public class AppConfig {
                 }
             }
             if(needToCreateTable){
+                logger.debug("Creating table in adapter database");
                 adapterDatabase.getConnection().createStatement()
                         .execute("create table "+tableName
                                 +" (master_id int, slave_id int)");
