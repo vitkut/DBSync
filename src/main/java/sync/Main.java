@@ -46,15 +46,17 @@ public class Main {
             adapterDao = new AdapterDaoImpl(adapterDatabase);
             List<Row> columnsAdapter;
             if(appConfig.syncSameColumns()){
+                logger.debug("init same columns connect");
                 columnsAdapter = new ArrayList<>();
                 Row sameColumns = MasterSlaveInitializer.getSameColumns(masterDatabase, slaveDatabase);
                 columnsAdapter.add(sameColumns);
                 columnsAdapter.add(sameColumns);
                 masterDao = new MasterDaoImpl(masterDatabase, sameColumns);
                 slaveDao = new SlaveDaoImpl(slaveDatabase, sameColumns);
-
             } else {
+                logger.debug("init not same columns connect");
                 if(appConfig.initColumnsToFile()) {
+                    logger.debug("init columns to file");
                     MasterSlaveInitializer.initColumns(masterDatabase, slaveDatabase);
                 }
                 Row masterColumns = ColumnsReader.getMasterColumns();
@@ -63,9 +65,14 @@ public class Main {
                 masterDao = new MasterDaoImpl(masterDatabase, masterColumns);
                 slaveDao = new SlaveDaoImpl(slaveDatabase, slaveColumns);
             }
-            adapter = new Adapter(adapterDao, columnsAdapter);
+            if(appConfig.convertColumns()){
+                logger.debug("init columns convertation");
+                adapter = new Adapter(adapterDao, columnsAdapter, ConverterReader.getCovertation());
+            } else {
+                adapter = new Adapter(adapterDao, columnsAdapter, new ArrayList<>());
+            }
             dumpBuilder = new DumpBuilder(dumpPath);
-            syncRowFinder = new SyncRowFinder(adapterDao);
+            syncRowFinder = new SyncRowFinder(adapterDao, adapter);
             syncRowFinder.findSyncRows(masterDao.getAll(), slaveDao.getAll());
 
             boolean needToCreateDump = false;
@@ -129,7 +136,6 @@ public class Main {
             }
 
             logger.info("End checking..");
-            logger.info("Next check in "+ LocalDateTime.now().plusSeconds(period/1000));
         } catch (Exception ex){
             logger.error("execute: "+ex.getMessage());
             error();
@@ -145,6 +151,7 @@ public class Main {
                 public void run() {
                     if (!paused){
                         execute();
+                        logger.info("Next check in "+ LocalDateTime.now().plusSeconds(period/1000));
                     }
                 }
             };
@@ -177,11 +184,9 @@ public class Main {
     }
 
     public static void check(){
-        if(started){
-            pause();
-            execute();
-            pause();
-        }
+        pause();
+        execute();
+        pause();
     }
 
     public static boolean isError() {

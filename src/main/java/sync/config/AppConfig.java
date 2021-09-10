@@ -155,4 +155,13 @@ public class AppConfig {
             return false;
         }
     }
+
+    public boolean convertColumns(){
+        String bool = propertiesReader.getProperty("convertColumns");
+        if(bool.equals("true")){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

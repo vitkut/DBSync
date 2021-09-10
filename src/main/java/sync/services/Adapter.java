@@ -17,11 +17,13 @@ public class Adapter {
 
     private AdapterDao adapterDao;
     private List<Row> columns;
+    private List<Row> convertColumns;
     private static final Logger logger = LoggerFactory.getLogger(Adapter.class);
 
-    public Adapter(AdapterDao adapterDao, List<Row> columns) {
+    public Adapter(AdapterDao adapterDao, List<Row> columns, List<Row> convertColumns) {
         this.adapterDao = adapterDao;
         this.columns = columns;
+        this.convertColumns = convertColumns;
     }
 
     public List<ChangeLog> adapt(List<ChangeLog> masterChangesLogs) {
@@ -32,14 +34,19 @@ public class Adapter {
                 Integer masterId;
                 if(c.getChangeMethod().equals(ChangeMethod.ADD)){
                     adaptedChangesLogs.add(new ChangeLog(ChangeMethod.ADD,
-                            adaptColumns(c.getColumns()), c.getFrom(), c.getTo()));
+                            adaptColumns(c.getColumns()),
+                            convertRow(c.getColumns(), c.getFrom()),
+                            convertRow(c.getColumns(), c.getTo())));
                 }
                 if(c.getChangeMethod().equals(ChangeMethod.DEL)){
                     masterId = c.getFrom().getId();
                     List<Integer> slaveIdList = adapterDao.get(c.getFrom().getId());
                     for(Integer id:slaveIdList){
                         adaptedChangesLogs.add(
-                                new ChangeLog(ChangeMethod.DEL, adaptColumns(c.getColumns()), new Row(id, c.getFrom().getValues()), null));
+                                new ChangeLog(ChangeMethod.DEL,
+                                        adaptColumns(c.getColumns()),
+                                        new Row(id, convertRow(c.getColumns(), c.getFrom()).getValues()),
+                                        null));
                     }
                     adapterDao.removeByMaster(masterId);
                 }
@@ -47,8 +54,10 @@ public class Adapter {
                     List<Integer> slaveIdList = adapterDao.get(c.getFrom().getId());
                     for(Integer id:slaveIdList){
                         adaptedChangesLogs.add(
-                                new ChangeLog(ChangeMethod.UPD, adaptColumns(c.getColumns()),
-                                        new Row(id, c.getFrom().getValues()), new Row(id, c.getTo().getValues())));
+                                new ChangeLog(ChangeMethod.UPD,
+                                        adaptColumns(c.getColumns()),
+                                        new Row(id, convertRow(c.getColumns(), c.getFrom()).getValues()),
+                                        new Row(id, convertRow(c.getColumns(), c.getTo()).getValues())));
                     }
                 }
             }
@@ -85,7 +94,28 @@ public class Adapter {
             int num = columns.get(0).getValues().indexOf(c);
             adaptedColumns.add(columns.get(1).getValues().get(num));
         }
-        return new Row(0, adaptedColumns);
+        return new Row(masterColumns.getId(), adaptedColumns);
+    }
+
+    public Row convertRow(Row columns, Row masterRow){
+        if(masterRow == null){
+            return null;
+        }
+        List<String> values = new ArrayList<>();
+        for (int i = 0; i < columns.getValues().size(); i++){
+            String newValue;
+            if(convertColumns.get(0).getValues().contains(columns.getValues().get(i))){
+                int num = convertColumns.get(0).getValues().indexOf(columns.getValues().get(i));
+                String value = masterRow.getValues().get(i);
+                String method = convertColumns.get(1).getValues().get(num);
+                logger.debug("convert: column=["+columns.getValues().get(i)+"], value=["+value+"], method=["+method+"]");
+                newValue = ValuesConverter.convert(value, method);
+            } else {
+                newValue = masterRow.getValues().get(i);
+            }
+            values.add(newValue);
+        }
+        return new Row(masterRow.getId(), values);
     }
 
     public AdapterDao getAdapterDao() {

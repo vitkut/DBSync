@@ -74,5 +74,16 @@ public class MasterSlaveInitializer {
         } catch (IOException ex){
             logger.error("Can't write to columns.properties ", ex);
         }
+        file = new File("convert.properties");
+        try (FileWriter fileWriter = new FileWriter(file, false)){
+            for (String column:masterColumns){
+                fileWriter.write(column+"=\n");
+            }
+            fileWriter.write("\n#---CONVERT METHODS---\n\n");
+            fileWriter.write("#fromHexToInt\n");
+            fileWriter.write("#fromIntToHex\n");
+        } catch (IOException ex){
+            logger.error("Can't write to convert.properties ", ex);
+        }
     }
 }
