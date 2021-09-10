@@ -137,4 +137,22 @@ public class AppConfig {
         logger.debug("getDumpPath -> "+dumpPath);
         return dumpPath;
     }
+
+    public boolean syncSameColumns(){
+        String bool = propertiesReader.getProperty("syncSameColumns");
+        if(bool.equals("true")){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean initColumnsToFile(){
+        String bool = propertiesReader.getProperty("initColumnsToFile");
+        if(bool.equals("true")){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

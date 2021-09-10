@@ -6,10 +6,7 @@ import sync.config.AppConfig;
 import sync.dao.*;
 import sync.models.*;
 import sync.models.primary.ChangeMethod;
-import sync.services.Adapter;
-import sync.services.DumpBuilder;
-import sync.services.PropertiesReader;
-import sync.services.SyncRowFinder;
+import sync.services.*;
 import sync.services.utils.DatabaseChecker;
 import sync.services.utils.MasterSlaveInitializer;
 
@@ -34,6 +31,7 @@ public class Main {
     private static String dumpPath;
     private static boolean paused;
     private static boolean error = false;
+    private static boolean started = false;
 
     public static void init(){
         try {
@@ -46,10 +44,26 @@ public class Main {
             SlaveDatabase slaveDatabase = appConfig.getSlaveDatabase();
             AdapterDatabase adapterDatabase = appConfig.getAdapterDatabase();
             adapterDao = new AdapterDaoImpl(adapterDatabase);
-            Row sameColumns = MasterSlaveInitializer.getSameColumns(masterDatabase, slaveDatabase);
-            masterDao = new MasterDaoImpl(masterDatabase, sameColumns);
-            slaveDao = new SlaveDaoImpl(slaveDatabase, sameColumns);
-            adapter = new Adapter(adapterDao);
+            List<Row> columnsAdapter;
+            if(appConfig.syncSameColumns()){
+                columnsAdapter = new ArrayList<>();
+                Row sameColumns = MasterSlaveInitializer.getSameColumns(masterDatabase, slaveDatabase);
+                columnsAdapter.add(sameColumns);
+                columnsAdapter.add(sameColumns);
+                masterDao = new MasterDaoImpl(masterDatabase, sameColumns);
+                slaveDao = new SlaveDaoImpl(slaveDatabase, sameColumns);
+
+            } else {
+                if(appConfig.initColumnsToFile()) {
+                    MasterSlaveInitializer.initColumns(masterDatabase, slaveDatabase);
+                }
+                Row masterColumns = ColumnsReader.getMasterColumns();
+                Row slaveColumns = ColumnsReader.getSlaveColumns();
+                columnsAdapter = ColumnsReader.getColumns();
+                masterDao = new MasterDaoImpl(masterDatabase, masterColumns);
+                slaveDao = new SlaveDaoImpl(slaveDatabase, slaveColumns);
+            }
+            adapter = new Adapter(adapterDao, columnsAdapter);
             dumpBuilder = new DumpBuilder(dumpPath);
             syncRowFinder = new SyncRowFinder(adapterDao);
             syncRowFinder.findSyncRows(masterDao.getAll(), slaveDao.getAll());
@@ -123,17 +137,19 @@ public class Main {
     }
 
     public static void start(){
-        timer = new Timer();
-        paused = false;
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                if (!paused){
-                    execute();
+        if(!started){
+            timer = new Timer();
+            paused = false;
+            TimerTask timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (!paused){
+                        execute();
+                    }
                 }
-            }
-        };
-        timer.scheduleAtFixedRate(timerTask, 0, period);
+            };
+            timer.scheduleAtFixedRate(timerTask, 0, period);
+        }
     }
 
     public static void pause(){
@@ -158,6 +174,14 @@ public class Main {
 
     public static boolean isPaused() {
         return paused;
+    }
+
+    public static void check(){
+        if(started){
+            pause();
+            execute();
+            pause();
+        }
     }
 
     public static boolean isError() {

@@ -20,9 +20,6 @@ public class SyncRowFinder {
     public void findSyncRows(Table masterTable, Table slaveTable) throws TableException, SQLException {
         try {
             logger.debug("findSyncRows("+masterTable+", "+slaveTable+")");
-            if(!masterTable.getRows().get(0).equals(slaveTable.getRows().get(0))){
-                throw new TableException("Columns in the tables are not the same");
-            }
             Integer masterId;
             Integer slaveId;
             for(int i = 1; i < masterTable.getRows().size(); i++){

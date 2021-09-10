@@ -16,10 +16,12 @@ import java.util.List;
 public class Adapter {
 
     private AdapterDao adapterDao;
+    private List<Row> columns;
     private static final Logger logger = LoggerFactory.getLogger(Adapter.class);
 
-    public Adapter(AdapterDao adapterDao) {
+    public Adapter(AdapterDao adapterDao, List<Row> columns) {
         this.adapterDao = adapterDao;
+        this.columns = columns;
     }
 
     public List<ChangeLog> adapt(List<ChangeLog> masterChangesLogs) {
@@ -29,14 +31,15 @@ public class Adapter {
             for(ChangeLog c:masterChangesLogs){
                 Integer masterId;
                 if(c.getChangeMethod().equals(ChangeMethod.ADD)){
-                    adaptedChangesLogs.add(c);
+                    adaptedChangesLogs.add(new ChangeLog(ChangeMethod.ADD,
+                            adaptColumns(c.getColumns()), c.getFrom(), c.getTo()));
                 }
                 if(c.getChangeMethod().equals(ChangeMethod.DEL)){
                     masterId = c.getFrom().getId();
                     List<Integer> slaveIdList = adapterDao.get(c.getFrom().getId());
                     for(Integer id:slaveIdList){
                         adaptedChangesLogs.add(
-                                new ChangeLog(ChangeMethod.DEL, c.getColumns(), new Row(id, c.getFrom().getValues()), null));
+                                new ChangeLog(ChangeMethod.DEL, adaptColumns(c.getColumns()), new Row(id, c.getFrom().getValues()), null));
                     }
                     adapterDao.removeByMaster(masterId);
                 }
@@ -44,7 +47,7 @@ public class Adapter {
                     List<Integer> slaveIdList = adapterDao.get(c.getFrom().getId());
                     for(Integer id:slaveIdList){
                         adaptedChangesLogs.add(
-                                new ChangeLog(ChangeMethod.UPD, c.getColumns(),
+                                new ChangeLog(ChangeMethod.UPD, adaptColumns(c.getColumns()),
                                         new Row(id, c.getFrom().getValues()), new Row(id, c.getTo().getValues())));
                     }
                 }
@@ -74,6 +77,15 @@ public class Adapter {
             logger.error("getAllMastersId: "+ex.getMessage());
             throw ex;
         }
+    }
+
+    private Row adaptColumns(Row masterColumns){
+        List<String> adaptedColumns = new ArrayList<>();
+        for(String c:masterColumns.getValues()){
+            int num = columns.get(0).getValues().indexOf(c);
+            adaptedColumns.add(columns.get(1).getValues().get(num));
+        }
+        return new Row(0, adaptedColumns);
     }
 
     public AdapterDao getAdapterDao() {

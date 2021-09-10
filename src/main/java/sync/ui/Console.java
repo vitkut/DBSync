@@ -14,13 +14,17 @@ public class Console {
         boolean needToStop = false;
         Main.init();
         Scanner scanner = new Scanner(System.in);
-        logger.info("Command list: [start], [pause], [stop]");
+        logger.info("Command list: [start], [check], [pause], [stop]");
         while (!needToStop){
             if(scanner.hasNextLine()){
                 String command = scanner.nextLine();
                 switch (command){
                     case "start":{
                         Main.start();
+                        break;
+                    }
+                    case "check":{
+                        Main.check();
                         break;
                     }
                     case "pause":{
