@@ -25,17 +25,14 @@ public class AppConfig {
     public SlaveDatabase getSlaveDatabase() throws SQLException{
         try {
             logger.debug("getSlaveDatabase()");
-            StringBuilder url = new StringBuilder();
-            url.append("jdbc:mysql://").append(propertiesReader.getProperty("db.host"))
-                    .append(":").append(propertiesReader.getProperty("db.port"))
-                    .append("/").append(propertiesReader.getProperty("db.databaseName"));
-            String username = propertiesReader.getProperty("db.username");
-            String password = propertiesReader.getProperty("db.password");
-            String tableName = propertiesReader.getProperty("db.tableName");
-            DataSource dataSource = new DriverManagerDataSource(url.toString(), username, password);
+            String url = propertiesReader.getProperty("db.slave.url");
+            String username = propertiesReader.getProperty("db.slave.username");
+            String password = propertiesReader.getProperty("db.slave.password");
+            String tableName = propertiesReader.getProperty("db.slave.tableName");
+            DataSource dataSource = new DriverManagerDataSource(url, username, password);
             Connection connection = dataSource.getConnection();
             if(connection.isClosed()){
-                throw new SQLException("Can not connect to DB: "+url.toString());
+                throw new SQLException("Can not connect to DB: "+url);
             }
             SlaveDatabase slaveDatabase = new SlaveDatabase(connection, tableName);
             logger.debug("getSalveDatabase -> "+slaveDatabase);
@@ -49,17 +46,14 @@ public class AppConfig {
     public MasterDatabase getMasterDatabase() throws SQLException{
         try {
             logger.debug("getMasterDatabase()");
-            StringBuilder url = new StringBuilder();
-            url.append("jdbc:mysql://").append(propertiesReader.getProperty("db.master.host"))
-                    .append(":").append(propertiesReader.getProperty("db.master.port"))
-                    .append("/").append(propertiesReader.getProperty("db.master.databaseName"));
+            String url = propertiesReader.getProperty("db.master.url");
             String username = propertiesReader.getProperty("db.master.username");
             String password = propertiesReader.getProperty("db.master.password");
             String tableName = propertiesReader.getProperty("db.master.tableName");
-            DataSource dataSource = new DriverManagerDataSource(url.toString(), username, password);
+            DataSource dataSource = new DriverManagerDataSource(url, username, password);
             Connection connection = dataSource.getConnection();
             if(connection.isClosed()){
-                throw new SQLException("Can not connect to DB: "+url.toString());
+                throw new SQLException("Can not connect to DB: "+url);
             }
             MasterDatabase masterDatabase = new MasterDatabase(connection, tableName);
             logger.debug("getMasterDatabase -> "+masterDatabase);
@@ -74,13 +68,11 @@ public class AppConfig {
     public AdapterDatabase getAdapterDatabase() throws SQLException{
         try {
             logger.debug("getAdapterDatabase()");
-            StringBuilder url = new StringBuilder();
-            url.append("jdbc:mysql://").append(propertiesReader.getProperty("db.adapter.host"))
-                    .append(":").append(propertiesReader.getProperty("db.adapter.port"));
-            String databaseName = propertiesReader.getProperty("db.adapter.databaseName");
+            StringBuilder url = new StringBuilder(propertiesReader.getProperty("db.adapter.url"));
             String username = propertiesReader.getProperty("db.adapter.username");
             String password = propertiesReader.getProperty("db.adapter.password");
             String tableName = propertiesReader.getProperty("db.adapter.tableName");
+            String databaseName = propertiesReader.getProperty("db.adapter.databaseName");
             DataSource tempDataSource = new DriverManagerDataSource(url.toString(), username, password);
             Connection tempConnection = tempDataSource.getConnection();
             if(tempConnection.isClosed()){
@@ -150,6 +142,7 @@ public class AppConfig {
     public boolean initColumnsToFile(){
         String bool = propertiesReader.getProperty("initColumnsToFile");
         if(bool.equals("true")){
+            propertiesReader.setProperty("initColumnsToFile", "false");
             return true;
         } else {
             return false;
